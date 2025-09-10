@@ -18,7 +18,7 @@ Don't worry, that means there are no environment variables set on your computer.
 - Locate the Python executable on your computer using Windows Explorer. It is normally located in `C:\Users\<username>\AppData\Local\Programs\Python\<pythonVersion>\python.exe`
 - Copy the path of this file. Click on `python.exe` **ONE TIME** so it is **HIGHLIGHTED**
 - On the top of Windows Explorer, you should see `Home` tab. Within this tab, click on `Copy path` (If you prefer to just click on the path link on the URL tab go ahead they work the same)
-- 4. Open your system environment variables:
+- Open your system environment variables:
   - &#8862; + env (You should see `Edit the system environment variables`) + Enter
   - Click on `Environment Variables...` at the bottom of the page
   - Under `System variables` find `PATH` (**CASE-SENSITIVE**) and select it. You should see a new window.
@@ -40,7 +40,7 @@ All Python installations above come with `pip`. Install all dependencies just by
 ```cmd
 pip install -r requirements.txt
 ```
-NOTE: If you need dependencies, just write them in the file and run the code above again
+NOTE: If you need dependencies, just write them in the file (`requirements.txt`) and run the code above again
 
 ## [🚧 WIP] Run The Scripts
 For convenience, `main.py` is the start script. You can rename to whatever it is. This script will likely be the entrypoint for the backend + frontend server.
