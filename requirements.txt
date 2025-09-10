@@ -1,0 +1,2 @@
+# Any dependencies needed are here
+matplotlib==3.10.6

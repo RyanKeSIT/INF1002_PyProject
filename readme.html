@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Get Started</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="get-started">Get Started</h1>
+<p>To get started, first install the latest version of Python</p>
+<ul>
+<li><a href="https://www.python.org/downloads/">Download Python</a></li>
+<li>Follow the on-screen instructions</li>
+</ul>
+<h4 id="verify-python-installation">Verify Python Installation</h4>
+<p>Open your command line (Close and open your command line again if you have 1 opened already). You can do so by:</p>
+<ul>
+<li>⊞ + CMD (You should see <code>Command Prompt</code>) + Enter</li>
+<li>Type <code>python</code> or <code>python3</code> (Depending on the alias you set). You should see the following:</li>
+</ul>
+<pre><code class="language-cmd">Python <span class="hljs-number">3</span>.<span class="hljs-number">13</span>.<span class="hljs-number">5</span> (tags/v3.<span class="hljs-number">13</span>.<span class="hljs-number">5</span>:<span class="hljs-number">6</span>cb20a2, Jun <span class="hljs-number">11</span> <span class="hljs-number">2025</span>, <span class="hljs-number">16</span>:<span class="hljs-number">15</span>:<span class="hljs-number">46</span>) [MSC v.<span class="hljs-number">1943</span> <span class="hljs-number">64</span> bit (AMD64)] on win32
+<span class="hljs-built_in">Type</span> &quot;<span class="hljs-built_in">help</span>&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; <span class="hljs-keyword">for</span> <span class="hljs-built_in">more</span> information.
+&gt;&gt;&gt;
+</code></pre>
+<p>This means Python has been installed successfully.</p>
+<h4 id="️-what-if-i-do-not-see-the-above">⚠️ What If I Do Not See The Above?</h4>
+<p>Don't worry, that means there are no environment variables set on your computer. Do the following:</p>
+<ul>
+<li>Locate the Python executable on your computer using Windows Explorer. It is normally located in <code>C:\Users\&lt;username&gt;\AppData\Local\Programs\Python\&lt;pythonVersion&gt;\python.exe</code></li>
+<li>Copy the path of this file. Click on <code>python.exe</code> <strong>ONE TIME</strong> so it is <strong>HIGHLIGHTED</strong></li>
+<li>On the top of Windows Explorer, you should see <code>Home</code> tab. Within this tab, click on <code>Copy path</code> (If you prefer to just click on the path link on the URL tab go ahead they work the same)</li>
+<li>
+<ol start="4">
+<li>Open your system environment variables:</li>
+</ol>
+<ul>
+<li>⊞ + env (You should see <code>Edit the system environment variables</code>) + Enter</li>
+<li>Click on <code>Environment Variables...</code> at the bottom of the page</li>
+<li>Under <code>System variables</code> find <code>PATH</code> (<strong>CASE-SENSITIVE</strong>) and select it. You should see a new window.</li>
+<li>Click <code>New</code> on the right hand side. Paste your python path link you copied in step 1.</li>
+</ul>
+</li>
+<li><strong>RESTART ALL COMMAND LINE INTERFACES FOR IT TO TAKE EFFECT</strong></li>
+</ul>
+<p>Open your command line. You can do so by:</p>
+<ul>
+<li>⊞ + CMD (You should see <code>Command Prompt</code>) + Enter</li>
+<li>Type <code>python</code> or <code>python3</code> (Depending on the alias you set). You should see the following:</li>
+</ul>
+<pre><code class="language-cmd">Python <span class="hljs-number">3</span>.<span class="hljs-number">13</span>.<span class="hljs-number">5</span> (tags/v3.<span class="hljs-number">13</span>.<span class="hljs-number">5</span>:<span class="hljs-number">6</span>cb20a2, Jun <span class="hljs-number">11</span> <span class="hljs-number">2025</span>, <span class="hljs-number">16</span>:<span class="hljs-number">15</span>:<span class="hljs-number">46</span>) [MSC v.<span class="hljs-number">1943</span> <span class="hljs-number">64</span> bit (AMD64)] on win32
+<span class="hljs-built_in">Type</span> &quot;<span class="hljs-built_in">help</span>&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; <span class="hljs-keyword">for</span> <span class="hljs-built_in">more</span> information.
+&gt;&gt;&gt;
+</code></pre>
+<p>This means Python has been installed and linked successfully.</p>
+<h2 id="install-dependencies">Install Dependencies</h2>
+<p>All Python installations above come with <code>pip</code>. Install all dependencies just by simply running in the command line:</p>
+<pre><code class="language-cmd">pip install -r requirements.txt
+</code></pre>
+<p>NOTE: If you need dependencies, just write them in the file and run the code above again</p>
+<h2 id="-wip-run-the-scripts">[🚧 WIP] Run The Scripts</h2>
+<p>For convenience, <code>main.py</code> is the start script. You can rename to whatever it is. This script will likely be the entrypoint for the backend + frontend server.</p>
+<h4 id="--model-folder">- <code>model/</code> Folder</h4>
+<p>This folder contains all business logic code. This is where we will do majority of the backend processing code.</p>
+<h4 id="--router-folder">- <code>router/</code> Folder</h4>
+<p>This folder contains the API interface code. This is where frontend from <code>static/</code> will interact with and this will execute code in <code>model/</code> and return any data back to the frontend.</p>
+<h4 id="--static-folder">- <code>static/</code> Folder</h4>
+<p>This folder contains all the HTML code for the frontend.</p>
+
+            
+            
+        </body>
+        </html>
