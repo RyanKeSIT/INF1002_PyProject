@@ -1,46 +1,66 @@
-# Import libraries
-from flask import Flask, render_template
-import plotly.graph_objects as go
-import plotly.io as pio
-import yfinance as yf
+from flask import Flask, render_template, request
+from analysis.calculations import simple_moving_average, daily_returns, upward_downward_runs, max_profit
+from analysis.visualisation import plot_price_sma_plotly, plot_candlestick
+
 import pandas as pd
+import plotly
+import plotly.graph_objects as go
+import yfinance as yf
+import json
 
-# Import modules
-from model.index import *
-from model.tools import *
 
-# API config
 app = Flask(__name__)
 
-# API routes
 @app.route('/')
 def index():
-    #  Download stock data (e.g., Apple) for the last 3 months
-    ticker = "AAPL"   # You can change this to any stock symbol
-    #data = yf.download(ticker, period="3mo", interval="1d")
-    data = pd.read_csv("AAPL.csv")
-    print(data.head())  # <--- Add this
-    data.reset_index(inplace=True)  # Make 'Date' a column instead of index
-    
-    #  Create Plotly candlestick
-    fig = go.Figure(data=[go.Candlestick(
-        x=data['Date'],
-        open=data['Open'],
-        high=data['High'],
-        low=data['Low'],
-        close=data['Close']
-    )])
+    return render_template('index.html')
+
+@app.route('/result', methods=['POST'])
+def analyze():
+
+    ticker = request.form['ticker'].strip().upper()
+    start = request.form['start']
+    end = request.form['end']
+
+    # Download stock data
+    df = yf.download(ticker, start=start, end=end)
+    df.head()
+
+    if df.empty:
+        return f"No data found for {ticker} between {start} and {end}."
+
+    # Reset index so 'Date' becomes a column
+    df.reset_index(inplace=True)
+
+    # Simple Moving Average (5-day)
+    df['SMA'] = df['Close'].rolling(window=5).mean()
+
+    # Create interactive Plotly figure
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=df['Date'], y=df['Close'], mode='lines', name='Close Price'
+    ))
+    fig.add_trace(go.Scatter(
+        x=df['Date'], y=df['SMA'], mode='lines', name='5-Day SMA'
+    ))
     fig.update_layout(
-        title=f"{ticker} Stock Price",
-        xaxis_title="Date",
-        yaxis_title="Price (USD)",
-        xaxis_rangeslider_visible=False
+        title=f"{ticker} Closing Price & 5-Day SMA",
+        xaxis_title="Date", yaxis_title="Price",
+        template="plotly_white"
     )
 
-    #Convert figure to HTML snippet
-    graph_html = pio.to_html(fig, full_html=False)
+    df = simple_moving_average(df)
+    df = daily_returns(df)
+    runs = upward_downward_runs(df)
+    profit = max_profit(df['Close'].values)
+    graph_json = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
-    return render_template('index.html', plot=graph_html, ticker=ticker)
+    graph_sma = plot_price_sma_plotly(df)  # Original chart with SMA + markers
+    graph_candle = plot_candlestick(df)   # New plain candlestick chart
+
+    return render_template('result.html', ticker=ticker, graph_json=graph_json, graph_sma=graph_sma,
+                           graph_candle=graph_candle, runs=runs, profit=profit)
 
 if __name__ == "__main__":
     app.run(debug=True)
+

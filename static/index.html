@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<form method="POST" action="/result">
+    <label for="ticker">Enter Stock Ticker:</label>
+    <input type="text" name="ticker" id="ticker" placeholder="AAPL" required><br><br>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ ticker }} Candlestick Chart</title>
-</head>
+    <label for="start">Start Date:</label>
+    <input type="date" name="start" id="start" required><br><br>
 
-<body>
-    <h1>{{ ticker }} Stock Candlestick Chart</h1>
-    {{ plot|safe }}
-</body>
+    <label for="end">End Date:</label>
+    <input type="date" name="end" id="end" required><br><br>
 
-</html>
+    <button type="submit">Analyse</button>
+</form>
