@@ -36,7 +36,7 @@ def plot_candlestick(df):
     """
     Generates a Plotly candlestick chart without SMA or markers.
     """
-    df= pd.read_csv("data/AAPL.csv")
+    df= pd.read_csv("AAPL.csv")
     fig = go.Figure(go.Candlestick(
         x=df['Date'],
         open=df['Open'],
