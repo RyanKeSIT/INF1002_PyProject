@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
-from analysis.calculations import simple_moving_average, daily_returns, upward_downward_runs, max_profit
-from analysis.visualisation import plot_price_sma_plotly, plot_candlestick
+from model.tools.calculations import simple_moving_average, daily_returns, upward_downward_runs, max_profit
+from model.tools.visualisation import plot_price_sma_plotly, plot_candlestick
 
 import pandas as pd
 import plotly
@@ -8,8 +8,7 @@ import plotly.graph_objects as go
 import yfinance as yf
 import json
 
-
-app = Flask(__name__)
+app = Flask(__name__, template_folder="../static/templates")
 
 @app.route('/')
 def index():
@@ -17,16 +16,14 @@ def index():
 
 @app.route('/result', methods=['POST'])
 def analyze():
-
     ticker = request.form['ticker'].strip().upper()
     start = request.form['start']
     end = request.form['end']
 
     # Download stock data
     df = yf.download(ticker, start=start, end=end)
-    df.head()
 
-    if df.empty:
+    if df is None:
         return f"No data found for {ticker} between {start} and {end}."
 
     # Reset index so 'Date' becomes a column
@@ -60,7 +57,3 @@ def analyze():
 
     return render_template('result.html', ticker=ticker, graph_json=graph_json, graph_sma=graph_sma,
                            graph_candle=graph_candle, runs=runs, profit=profit)
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
