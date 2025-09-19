@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analysis Results of {{  ticker  }} Stocks</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Results of {{ ticker }} Stocks</h1>
+    <p>Upward Runs: {{ runs.up_count }}</p>
+    <p>Downward Runs: {{ runs.down_count }}</p>
+    <p>Longest Up Streak: {{ runs.longest_up }}</p>
+    <p>Longest Down Streak: {{ runs.longest_down }}</p>
+    <p>Maximum Profit: {{ profit }}</p>
+
+    <h2>Closing Price vs SMA</h2>
+    <div id="plotly-chart"></div>
+    <script>
+        var plot_data = {{ graph_json|safe }};
+        Plotly.newPlot('plotly-chart', plot_data.data, plot_data.layout);
+    </script>
+
+    <h2>Candlestick + SMA + Up/Down Markers</h2>
+    <div id="chart_sma"></div>
+    <script>
+        var plotDataSMA = {{ graph_sma | safe }};
+        Plotly.newPlot('chart_sma', plotDataSMA.data, plotDataSMA.layout);
+    </script>
+
+    <h2>Plain Candlestick Chart</h2>
+    <div id="chart_candle"></div>
+    <script>
+        var plotDataCandle = {{ graph_candle | safe }};
+        Plotly.newPlot('chart_candle', plotDataCandle.data, plotDataCandle.layout);
+    </script>
+</body>
+</html>
