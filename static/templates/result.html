@@ -62,7 +62,9 @@
             margin-bottom: 50px;
         }
 
-        #plotly-chart, #chart_sma, #chart_candle {
+        #plotly-chart,
+        #chart_sma,
+        #chart_candle {
             width: 100%;
             height: 450px;
             border-radius: 8px;
@@ -132,12 +134,10 @@
         {% endif %}
     </p>
 
-    <p>Latest Closing Price:{{ "%.2f"|format(latest_close) }}</p>
-
     <h2>Best Buy and Sell Dates</h2>
     <!--HTML Table: https://www.w3schools.com/html/html_tables.asp-->
     <div style="max-height: 400px; overflow-y: auto;">
-        <table border="1", style="width:100%">
+        <table border="1" , style="width:100%">
             <thead>
                 <tr>
                     <th style="background-color: rgb(105, 159, 105)">Best Buy Date</th>
@@ -147,10 +147,10 @@
             <tbody>
                 <!--Jinja Template for Loops in Flask: https://www.geeksforgeeks.org/python/templating-with-jinja2-in-flask/-->
                 {% for trade in buy_and_sell_dates %}
-                    <tr>
-                        <td style="text-align: center ">{{ trade['Buy Date'] }}</td>
-                        <td style="text-align: center">{{ trade['Sell Date'] }}</td>
-                    </tr>
+                <tr>
+                    <td style="text-align: center ">{{ trade['Buy Date'] }}</td>
+                    <td style="text-align: center">{{ trade['Sell Date'] }}</td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
@@ -166,18 +166,11 @@
     <h2>Closing Price vs SMA</h2>
     <div id="plotly-chart"></div>
     <script>
-        var plot_data = {{ graph_sma|safe }};
+        var plot_data = {{ graph_sma| safe }};
         Plotly.newPlot('plotly-chart', plot_data.data, plot_data.layout);
     </script>
 
-    <h2>Up and Down Runs</h2>
-    <div id="chart_updown"></div>
-    <script>
-        var plotDataUpDown = {{ graph_runs | safe }};
-        Plotly.newPlot('chart_updown', plotDataUpDown.data, plotDataUpDown.layout);
-    </script>
-
-    <h2>Plain Candlestick Chart</h2>
+    <h2>Up/Down Candlestick Chart</h2>
     <div id="chart_candle"></div>
     <script>
         var plotDataCandle = {{ graph_candle | safe }};
@@ -186,15 +179,6 @@
 
     <!-- Charts -->
     <div class="chart-container">
-        <h2>Closing Price vs SMA</h2>
-        <div id="plotly-chart" class="chart-wrapper"></div>
-        <script>
-            var plot_data = {{ graph_json|safe }};
-            Plotly.newPlot('plotly-chart', plot_data.data, plot_data.layout);
-        </script>
-    </div>
-
-    <div class="chart-container">
         <h2>Candlestick + SMA + Up/Down Markers</h2>
         <div id="chart_sma" class="chart-wrapper"></div>
         <script>
@@ -202,16 +186,6 @@
             Plotly.newPlot('chart_sma', plotDataSMA.data, plotDataSMA.layout);
         </script>
     </div>
-
-    <div class="chart-container">
-        <h2>Plain Candlestick Chart</h2>
-        <div id="chart_candle" class="chart-wrapper"></div>
-        <script>
-            var plotDataCandle = {{ graph_candle | safe }};
-            Plotly.newPlot('chart_candle', plotDataCandle.data, plotDataCandle.layout);
-        </script>
-    </div>
-
 </body>
 
 </html>
