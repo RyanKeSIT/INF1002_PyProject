@@ -8,7 +8,8 @@ import plotly.graph_objects as go
 import yfinance as yf
 import json
 
-app = Flask(__name__, template_folder="../static/templates")
+#app = Flask(__name__, template_folder="../static/templates")
+app = Flask(__name__, static_folder="../static", template_folder="../static/templates")
 
 @app.route('/')
 def index():
