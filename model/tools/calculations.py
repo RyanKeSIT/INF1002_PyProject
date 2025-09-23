@@ -13,6 +13,16 @@ def daily_returns(df):
     df['Daily Return'] = df['Close'].pct_change()
     return df
 
+#   Dong Han
+def latest_daily_return_and_change(df):
+
+    # Returns the latest daily return (%) and latest price change.
+
+    latest_return = df['Daily Return'].iloc[-1]
+    latest_change = df['Close'].iloc[-1] - df['Close'].iloc[-2]
+    latest_close = df['Close'].iloc[-1]   # <-- latest closing price
+    return latest_return, latest_change , latest_close
+
 def upward_downward_runs(df):
     df['Direction'] = np.where(
         df['Close'] > df['Close'].shift(1), 1,

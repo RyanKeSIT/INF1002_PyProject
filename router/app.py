@@ -5,7 +5,8 @@ from model.tools.visualisation import plot_daily_returns,plot_price_sma_plotly, 
 #import plotly.graph_objects as go
 import yfinance as yf
 
-app = Flask(__name__, template_folder="../static/templates")
+#app = Flask(__name__, template_folder="../static/templates")
+app = Flask(__name__, static_folder="../static", template_folder="../static/templates")
 
 @app.route('/')
 def index():
@@ -40,5 +41,15 @@ def analyze():
     graph_candle = plot_candlestick(df)   # New plain candlestick chart
     graph_runs = plot_updown_runs(df)
 
-    return render_template('result.html', ticker=ticker, graph_daily_returns=graph_daily_returns, graph_sma=graph_sma,
-                           graph_candle=graph_candle, graph_runs=graph_runs, runs=runs, buy_and_sell_dates=buy_and_sell_dates, profit=profit)
+     # DH Safely compute latest daily return and absolute price change
+    if len(df) >= 2:
+        latest_return = float(df["Daily Return"].iloc[-1])           # e.g. 0.0123 for +1.23%
+        latest_change = float(df["Close"].iloc[-1] - df["Close"].iloc[-2])
+        latest_close = float(df["Close"].iloc[-1])
+    else:
+        latest_return = None
+        latest_change = None
+        latest_close = None
+
+    return render_template('result.html', ticker=ticker, graph_json=graph_json, graph_sma=graph_sma,
+                           graph_candle=graph_candle, runs=runs, profit=profit)

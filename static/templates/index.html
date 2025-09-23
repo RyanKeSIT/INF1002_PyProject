@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <form method="POST" action="/result">
     <label for="ticker">Enter Stock Ticker:</label>
@@ -11,3 +12,81 @@
 
     <button type="submit">Analyse</button>
 </form>
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sentra Style Layout</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+      <aside class="sidebar"></aside>
+      <main class="slideshow" id="slideshow">
+        <div class="slideshow-content">
+          <h1>Search for a Stock to Start Your Analysis</h1>
+          <p>Visualize stock price trends and trading patterns to make informed investment decisions.</p>
+          <a href="#form-section" class="btn-discover">Get Started</a>
+        </div>
+      </main>
+    </div>
+
+    <section id="form-section">
+        <h2>Select Stock</h2>
+        <form action="result" method="POST">
+            <select name="ticker" id="ticker" required>
+                <option value="" disabled selected>Select a stock ticker</option>
+                <option value="TSLA">Tesla (TSLA)</option>
+                <option value="AAPL">Apple (AAPL)</option>
+                <option value="GOOGL">Google (GOOGL)</option>
+                <option value="AMZN">Amazon (AMZN)</option>
+                <option value="MSFT">Microsoft (MSFT)</option>
+                <option value="META">Meta (META)</option>
+            </select>
+
+            <label for="start">Start Date</label>
+            <input name="start" type="date" id="start" required />
+
+            <label for="end">End Date</label>
+            <input name="end" type="date" id="end" required />
+
+            <button type="submit">Analyze</button>
+        </form>
+    </section>
+
+    <script>
+        // Background images for slideshow
+        const images = [
+            'https://t3.ftcdn.net/jpg/03/21/99/92/360_F_321999244_kLDfk7mlGQc2zpz1NM91IeTdQfjuKD0u.jpg',
+            'https://www.technoloader.com/blog/wp-content/uploads/2019/01/Stock-Market-Website.jpg',
+            'https://tinyurl.com/7p92bs8k'
+        ];
+        let currentIndex = 0;
+        const slideshow = document.getElementById('slideshow');
+
+        function changeBackground() {
+            currentIndex = (currentIndex + 1) % images.length;
+            slideshow.style.backgroundImage = `url('${images[currentIndex]}')`;
+        }
+
+        // Initial background
+        slideshow.style.backgroundImage = `url('${images[0]}')`;
+
+        setInterval(changeBackground, 7000);
+
+        // Smooth Scroll on clicking "Discover More"
+        document.querySelector('.btn-discover').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector('#form-section').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    </script>
+
+</body>
+
+</html>
