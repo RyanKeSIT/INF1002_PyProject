@@ -1,4 +1,9 @@
+'''References
+1. https://www.geeksforgeeks.org/python/using-pandas-to_datetime-with-timestamps/
+
+'''
 import numpy as np
+import pandas as pd
 
 def simple_moving_average(df, window=5):
     df['SMA'] = df['Close'].rolling(window=window).mean()
@@ -31,9 +36,16 @@ def upward_downward_runs(df):
             current_up = current_down = 0
     return runs
 
-def max_profit(prices):
+def max_profit(df):
     profit = 0 #Initialize total profit
+    prices = df['Close']
+    dates = df['Date']
+    buy_and_sell_dates = []
     for i in range(1, len(prices)):
         if prices[i] > prices[i-1]: #check if today’s price is higher than yesterday’s
             profit += prices[i] - prices[i-1] #add the difference to total profit
-    return profit
+            buy_and_sell_dates.append({
+                'Buy Date': pd.to_datetime(dates[i-1]).strftime('%d-%m-%Y'),
+                'Sell Date': pd.to_datetime(dates[i]).strftime(('%d-%m-%Y'))
+            })
+    return f'${round(profit,2)}', buy_and_sell_dates
