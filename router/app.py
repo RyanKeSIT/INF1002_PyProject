@@ -56,5 +56,17 @@ def analyze():
     graph_sma = plot_price_sma_plotly(df)  # Original chart with SMA + markers
     graph_candle = plot_candlestick(df)   # New plain candlestick chart
 
+    
+
+     # DH Safely compute latest daily return and absolute price change
+    if len(df) >= 2:
+        latest_return = float(df["Daily Return"].iloc[-1])           # e.g. 0.0123 for +1.23%
+        latest_change = float(df["Close"].iloc[-1] - df["Close"].iloc[-2])
+        latest_close = float(df["Close"].iloc[-1])
+    else:
+        latest_return = None
+        latest_change = None
+        latest_close = None
+
     return render_template('result.html', ticker=ticker, graph_json=graph_json, graph_sma=graph_sma,
                            graph_candle=graph_candle, runs=runs, profit=profit)

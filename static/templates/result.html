@@ -1,10 +1,12 @@
 <!--
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Analysis Results of {{  ticker  }} Stocks</title>
+    <title>Analysis Results of {{ ticker }} Stocks</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
+
 <body>
     <h1>Results of {{ ticker }} Stocks</h1>
     <p>Upward Runs: {{ runs.up_count }}</p>
@@ -12,6 +14,45 @@
     <p>Longest Up Streak: {{ runs.longest_up }}</p>
     <p>Longest Down Streak: {{ runs.longest_down }}</p>
     <p>Maximum Profit: {{ profit }}</p>
+
+    <!-- Dong Han Changes -->
+    <p>Latest Closing Price :
+        {% if latest_close is not none and latest_change is not none and latest_return is not none %}
+        <span>
+            {{ "%.2f"|format(latest_close) }}
+        </span>
+        <span style="color: {% if latest_change >= 0 %}green{% else %}red{% endif %};">
+            {{ "%+.2f"|format(latest_change) }}
+            ({{ "%+.2f"|format(latest_return * 100) }}%)
+        </span>
+        {% else %}
+        N/A
+        {% endif %}
+    </p>
+
+    <p>Latest Closing Price:{{ "%.2f"|format(latest_close) }}</p>
+
+    <p>
+        Latest Daily Return:
+        {% if latest_return is not none %}
+        <span style="color: {% if latest_return >= 0 %}green{% else %}red{% endif %};">
+            {{ "+" if latest_return >= 0 else "" }}{{ (latest_return * 100) | round(2) }}%
+        </span>
+        {% else %}
+        N/A
+        {% endif %}
+    </p>
+
+    <p>
+        Latest Price Change:
+        {% if latest_change is not none %}
+        <span style="color: {% if latest_change >= 0 %}green{% else %}red{% endif %};">
+            {{ "+" if latest_change >= 0 else "" }}{{ latest_change | round(2) }}
+        </span>
+        {% else %}
+        N/A
+        {% endif %}
+    </p>
 
     <h2>Closing Price vs SMA</h2>
     <div id="plotly-chart"></div>
