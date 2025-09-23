@@ -1,83 +1,3 @@
-<!--
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>Analysis Results of {{ ticker }} Stocks</title>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-</head>
-
-<body>
-    <h1>Results of {{ ticker }} Stocks</h1>
-    <p>Upward Runs: {{ runs.up_count }}</p>
-    <p>Downward Runs: {{ runs.down_count }}</p>
-    <p>Longest Up Streak: {{ runs.longest_up }}</p>
-    <p>Longest Down Streak: {{ runs.longest_down }}</p>
-    <p>Maximum Profit: {{ profit }}</p>
-
-    <!-- Dong Han Changes -->
-    <p>Latest Closing Price :
-        {% if latest_close is not none and latest_change is not none and latest_return is not none %}
-        <span>
-            {{ "%.2f"|format(latest_close) }}
-        </span>
-        <span style="color: {% if latest_change >= 0 %}green{% else %}red{% endif %};">
-            {{ "%+.2f"|format(latest_change) }}
-            ({{ "%+.2f"|format(latest_return * 100) }}%)
-        </span>
-        {% else %}
-        N/A
-        {% endif %}
-    </p>
-
-    <p>Latest Closing Price:{{ "%.2f"|format(latest_close) }}</p>
-
-    <p>
-        Latest Daily Return:
-        {% if latest_return is not none %}
-        <span style="color: {% if latest_return >= 0 %}green{% else %}red{% endif %};">
-            {{ "+" if latest_return >= 0 else "" }}{{ (latest_return * 100) | round(2) }}%
-        </span>
-        {% else %}
-        N/A
-        {% endif %}
-    </p>
-
-    <p>
-        Latest Price Change:
-        {% if latest_change is not none %}
-        <span style="color: {% if latest_change >= 0 %}green{% else %}red{% endif %};">
-            {{ "+" if latest_change >= 0 else "" }}{{ latest_change | round(2) }}
-        </span>
-        {% else %}
-        N/A
-        {% endif %}
-    </p>
-
-    <h2>Closing Price vs SMA</h2>
-    <div id="plotly-chart"></div>
-    <script>
-        var plot_data = {{ graph_json|safe }};
-        Plotly.newPlot('plotly-chart', plot_data.data, plot_data.layout);
-    </script>
-
-    <h2>Candlestick + SMA + Up/Down Markers</h2>
-    <div id="chart_sma"></div>
-    <script>
-        var plotDataSMA = {{ graph_sma | safe }};
-        Plotly.newPlot('chart_sma', plotDataSMA.data, plotDataSMA.layout);
-    </script>
-
-    <h2>Plain Candlestick Chart</h2>
-    <div id="chart_candle"></div>
-    <script>
-        var plotDataCandle = {{ graph_candle | safe }};
-        Plotly.newPlot('chart_candle', plotDataCandle.data, plotDataCandle.layout);
-    </script>
-</body>
-</html>
--->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -196,6 +116,73 @@
             <p>{{ profit }}</p>
         </div>
     </div>
+
+    <!-- Dong Han Changes -->
+    <p>Latest Closing Price :
+        {% if latest_close is not none and latest_change is not none and latest_return is not none %}
+        <span>
+            {{ "%.2f"|format(latest_close) }}
+        </span>
+        <span style="color: {% if latest_change >= 0 %}green{% else %}red{% endif %};">
+            {{ "%+.2f"|format(latest_change) }}
+            ({{ "%+.2f"|format(latest_return * 100) }}%)
+        </span>
+        {% else %}
+        N/A
+        {% endif %}
+    </p>
+
+    <p>Latest Closing Price:{{ "%.2f"|format(latest_close) }}</p>
+
+    <h2>Best Buy and Sell Dates</h2>
+    <!--HTML Table: https://www.w3schools.com/html/html_tables.asp-->
+    <div style="max-height: 400px; overflow-y: auto;">
+        <table border="1", style="width:100%">
+            <thead>
+                <tr>
+                    <th style="background-color: rgb(105, 159, 105)">Best Buy Date</th>
+                    <th style="background-color: rgb(196, 122, 122)">Best Sell Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--Jinja Template for Loops in Flask: https://www.geeksforgeeks.org/python/templating-with-jinja2-in-flask/-->
+                {% for trade in buy_and_sell_dates %}
+                    <tr>
+                        <td style="text-align: center ">{{ trade['Buy Date'] }}</td>
+                        <td style="text-align: center">{{ trade['Sell Date'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Daily Returns</h2>
+    <div id="chart_daily_returns"></div>
+    <script>
+        var plotDailyReturns = {{ graph_daily_returns | safe }};
+        Plotly.newPlot('chart_daily_returns', plotDailyReturns.data, plotDailyReturns.layout);
+    </script>
+
+    <h2>Closing Price vs SMA</h2>
+    <div id="plotly-chart"></div>
+    <script>
+        var plot_data = {{ graph_sma|safe }};
+        Plotly.newPlot('plotly-chart', plot_data.data, plot_data.layout);
+    </script>
+
+    <h2>Up and Down Runs</h2>
+    <div id="chart_updown"></div>
+    <script>
+        var plotDataUpDown = {{ graph_runs | safe }};
+        Plotly.newPlot('chart_updown', plotDataUpDown.data, plotDataUpDown.layout);
+    </script>
+
+    <h2>Plain Candlestick Chart</h2>
+    <div id="chart_candle"></div>
+    <script>
+        var plotDataCandle = {{ graph_candle | safe }};
+        Plotly.newPlot('chart_candle', plotDataCandle.data, plotDataCandle.layout);
+    </script>
 
     <!-- Charts -->
     <div class="chart-container">
