@@ -8,7 +8,6 @@ from model.tools.calculations import (
 from model.tools.visualisation import (
     plot_price_sma_plotly,
     plot_candlestick,
-    plot_updown_runs,
     plot_daily_returns,
 )
 
@@ -68,7 +67,6 @@ def analyze():
 
     graph_sma = plot_price_sma_plotly(df)  # Original chart with SMA + markers
     graph_candle = plot_candlestick(df)  # New plain candlestick chart
-    graph_runs = plot_updown_runs(df)
     graph_daily_returns = plot_daily_returns(df)
 
     # DH Safely compute latest daily return and absolute price change
@@ -88,7 +86,6 @@ def analyze():
         graph_sma=graph_sma,
         graph_candle=graph_candle,
         runs=runs,
-        graph_runs=graph_runs,
         graph_daily_returns=graph_daily_returns,
         buy_and_sell_dates=buy_and_sell_dates,
         profit=profit,

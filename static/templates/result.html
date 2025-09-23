@@ -170,13 +170,6 @@
         Plotly.newPlot('plotly-chart', plot_data.data, plot_data.layout);
     </script>
 
-    <h2>Up and Down Runs</h2>
-    <div id="chart_updown"></div>
-    <script>
-        var plotDataUpDown = {{ graph_runs | safe }};
-        Plotly.newPlot('chart_updown', plotDataUpDown.data, plotDataUpDown.layout);
-    </script>
-
     <h2>Plain Candlestick Chart</h2>
     <div id="chart_candle"></div>
     <script>

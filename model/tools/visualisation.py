@@ -78,53 +78,6 @@ def plot_price_sma_plotly(df):
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def plot_updown_runs(df):
-    closes = df["Close"].values
-    dates = df["Date"] if "Date" in df.columns else df.index
-
-    # Store OHLC values for each day
-    ohlc_values = df[["Open", "High", "Low", "Close"]].values
-
-    fig = go.Figure()
-
-    for i in range(1, len(closes)):
-        color = "green" if closes[i] > closes[i - 1] else "red"
-
-        # Get the OHLC data for the specific day
-        hover_data = ohlc_values[i]
-
-        fig.add_trace(
-            go.Scatter(
-                x=[dates[i - 1], dates[i]],
-                y=[closes[i - 1], closes[i]],
-                mode="lines",
-                line=dict(color=color, width=2),
-                showlegend=False,
-                # Use hovertemplate to display the OHLC data
-                hovertemplate=(
-                    "<b>Date:</b> %{x|%d-%m-%Y}<br>"
-                    "<b>Open:</b> %{customdata[0]:$.2f}<br>"
-                    "<b>High:</b> %{customdata[1]:$.2f}<br>"
-                    "<b>Low:</b> %{customdata[2]:$.2f}<br>"
-                    "<b>Close:</b> %{customdata[3]:$.2f}<br>"
-                    "<extra></extra>"
-                ),
-                # Pass the OHLC data to customdata
-                customdata=[hover_data],
-            )
-        )
-
-    fig.update_layout(
-        title="Up and Down Runs",
-        xaxis_title="Date",
-        yaxis_title="Closing Price",
-        template="plotly_white",
-    )
-
-    # Return JSON for Plotly
-    return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-
-
 def plot_candlestick(df):
     """
     Generates a Plotly candlestick chart without SMA or markers.
