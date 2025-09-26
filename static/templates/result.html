@@ -252,10 +252,10 @@
     <!-- Charts -->
     <div class="chart-container">
         <h2>Candlestick + SMA + Up/Down Markers</h2>
-        <div id="chart_sma" class="chart-wrapper"></div>
+        <div id="chart_overall" class="chart-wrapper"></div>
         <script>
-            var plotDataSMA = {{ graph_sma | safe }};
-            Plotly.newPlot('chart_sma', plotDataSMA.data, plotDataSMA.layout);
+            var plotDataOverall = {{ graph_overall | safe }};
+            Plotly.newPlot('chart_overall', plotDataOverall.data, plotDataOverall.layout);
         </script>
     </div>
 </body>

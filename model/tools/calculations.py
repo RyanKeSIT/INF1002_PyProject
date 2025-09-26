@@ -1,15 +1,20 @@
 import numpy as np
 import pandas as pd
 
-def simple_moving_average(df, window=5):
-    df["SMA"] = df["Close"].rolling(window=window).mean()
-    return df
+def simple_moving_average(df, window=20):
 
+    df["SMA"] = df["Close"].rolling(window=window).mean()
+    df["prev_close"] = df["Close"].shift(1)
+    df["prev_sma"] = df["SMA"].shift(1)
+    # Buy signal when yesterday’s close was at or below the SMA and today’s close is above
+    df['buy_signal']  = (df['prev_close'] <= df['prev_sma']) & (df['Close'] > df['SMA'])
+    # Sell signal when yesterday’s close was at or above the SMA and today’s close is below
+    df['sell_signal'] = (df['prev_close'] >= df['prev_sma']) & (df['Close'] < df['SMA'])
+    return df
 
 def daily_returns(df):
-    df["Daily Return"] = df["Close"].pct_change()
+    df["Daily Return"] = df["Close"].pct_change()*100
     return df
-
 
 def latest_daily_return_and_change(df):
     # Returns the latest daily return (%) and latest price change.
@@ -17,7 +22,6 @@ def latest_daily_return_and_change(df):
     latest_change = df["Close"].iloc[-1] - df["Close"].iloc[-2]
     latest_close = df["Close"].iloc[-1]  # <-- latest closing price
     return latest_return, latest_change, latest_close
-
 
 def upward_downward_runs(df):
     df["Direction"] = np.where(
