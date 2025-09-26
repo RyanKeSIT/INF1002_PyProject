@@ -1,5 +1,12 @@
 """References
 1. https://www.geeksforgeeks.org/python/using-pandas-to_datetime-with-timestamps/
+2. https://www.w3schools.com/python/pandas/ref_df_diff.asp
+3. https://www.w3schools.com/python/pandas/ref_df_cumsum.asp
+4. https://www.geeksforgeeks.org/python/cumulative-sum-of-a-column-in-pandas-python/
+5. https://www.w3schools.com/python/pandas/ref_df_iloc.asp
+6. https://www.geeksforgeeks.org/pandas/python-pandas-dataframe-groupby/
+7. https://medium.com/@codewithnazam/pandas-vectorization-the-secret-weapon-for-data-masters-cwn-f4b4452e3627
+8. https://www.youtube.com/watch?v=DkjCaAMBGWM
 
 """
 
@@ -17,11 +24,8 @@ def daily_returns(df):
     return df
 
 
-#   Dong Han
 def latest_daily_return_and_change(df):
-
     # Returns the latest daily return (%) and latest price change.
-
     latest_return = df["Daily Return"].iloc[-1]
     latest_change = df["Close"].iloc[-1] - df["Close"].iloc[-2]
     latest_close = df["Close"].iloc[-1]  # <-- latest closing price
@@ -51,21 +55,25 @@ def upward_downward_runs(df):
             current_up = current_down = 0
     return runs
 
-
 def max_profit(df):
-    profit = 0  # Initialize total profit
-    prices = df["Close"]
-    dates = df["Date"]
-    buy_and_sell_dates = []
-    for i in range(1, len(prices)):
-        if (
-            prices[i] > prices[i - 1]
-        ):  # check if today’s price is higher than yesterday’s
-            profit += prices[i] - prices[i - 1]  # add the difference to total profit
-            buy_and_sell_dates.append(
-                {
-                    "Buy Date": pd.to_datetime(dates[i - 1]).strftime("%d-%m-%Y"),
-                    "Sell Date": pd.to_datetime(dates[i]).strftime(("%d-%m-%Y")),
-                }
-            )
-    return f"${round(profit,2)}", buy_and_sell_dates
+
+    df['Daily Returns'] = df['Close'].diff() #Difference between current day's and previous day's closing price
+    profitable_days =df[df['Daily Returns']>0] #Dataframe rows where daily returns are greater than 0
+    total_profit = profitable_days['Daily Returns'].sum() # Sums Profit of all days with positive daily returns
+    df['ProfitGroup'] = (df['Daily Returns'] <= 0).cumsum() #Creates new group everytime daily return drops
+    profitable_runs = df[df['Daily Returns'] > 0].groupby('ProfitGroup') #Group best buy and sell days 
+
+    buy_and_sell_dates = [] 
+    for sellBuyGroup, group_df in profitable_runs:
+        buy_date = group_df['Date'].iloc[0] # First day of the current run 
+        sell_date = group_df['Date'].iloc[-1] # Last day of current run 
+        groupProfit = group_df['Daily Returns'].sum() #Sum profit of the current run 
+        buy_and_sell_dates.append({
+            "Buy Date": pd.to_datetime(buy_date).strftime("%d-%m-%Y"),
+            "Sell Date": pd.to_datetime(sell_date).strftime("%d-%m-%Y"),
+            "Profit": f"${groupProfit:.2f}"
+        })
+        
+    single_best_profit = max(buy_and_sell_dates, key=lambda x: float(x['Profit'][1:])) #Get highest profit by slicing $ from all profts
+    return f"${round(total_profit, 2)}", buy_and_sell_dates, single_best_profit
+
