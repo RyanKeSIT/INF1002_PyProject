@@ -22,7 +22,7 @@
     <section id="form-section">
         <h2>Select Stock</h2>
         <form action="result" method="POST">
-            <select name="ticker" id="ticker" required>
+            <select name="ticker" id="ticker" required class = "scrollable-select">
                 <option value="" disabled selected>Select a stock ticker</option>
                 <option value="TSLA">Tesla (TSLA)</option>
                 <option value="AAPL">Apple (AAPL)</option>
@@ -30,6 +30,12 @@
                 <option value="AMZN">Amazon (AMZN)</option>
                 <option value="MSFT">Microsoft (MSFT)</option>
                 <option value="META">Meta (META)</option>
+                <option value="NVDA">Nvidia (NVDA)</option>
+                <option value="^STI">Straits Times (^STI)</option>
+                <option value="ORCL">Oracle (ORCL)</option>
+                <option value="WMT">Walmart (WMT)</option>
+                <option value="V">Visa (V)</option>
+                <option value="MA">Mastercard (MA)</option>
             </select>
 
             <label for="start">Start Date</label>
@@ -70,7 +76,6 @@
             });
         });
     </script>
-
 </body>
 
 </html>
