@@ -30,8 +30,6 @@ def analyze():
     start = request.form["start"]
     end = request.form["end"]
     df = load_stock_data(ticker, start, end)
-
-
     runs = upward_downward_runs(df)
     profit, buy_and_sell_dates = max_profit(df)
 

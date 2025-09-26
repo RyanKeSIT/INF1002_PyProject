@@ -29,6 +29,9 @@ def plot_daily_returns(df):
                 "<b>Daily Return:</b> %{y:.2%}<br>"
                 "<extra></extra>"
             ),
+            marker_color=[
+                'green' if val >= 0 else 'red' for val in df["Daily Return"]
+            ],
         )
     )
 
