@@ -1,20 +1,19 @@
 from flask import Flask, render_template, request
 from model.tools.calculations import (
-    simple_moving_average,
-    daily_returns,
     upward_downward_runs,
     max_profit,
+)
+from model.tools.data_loader import (
+    load_stock_data,
 )
 from model.tools.visualisation import (
     plot_price_sma_plotly,
     plot_candlestick,
     plot_daily_returns,
+    plot_overall,
 )
 
-import plotly
 import plotly.graph_objects as go
-import yfinance as yf
-import json
 
 # app = Flask(__name__, template_folder="../static/templates")
 app = Flask(__name__, static_folder="../static", template_folder="../static/templates")
@@ -27,47 +26,19 @@ def index():
 
 @app.route("/result", methods=["POST"])
 def analyze():
-    ticker = request.form["ticker"].strip().upper()
+    ticker = request.form["ticker"]
     start = request.form["start"]
     end = request.form["end"]
+    df = load_stock_data(ticker, start, end)
 
-    # Download stock data
-    df = yf.download(ticker, start=start, end=end)
 
-    if df.empty:
-        return f"No data found for {ticker} between {start} and {end}."
-
-    # Remove spaces from column names
-    df.columns = [column[0].replace(" ", "") for column in df.columns]
-
-    # Reset index so 'Date' becomes a column
-    df.reset_index(inplace=True)
-
-    # Simple Moving Average (5-day)
-    df["SMA"] = df["Close"].rolling(window=5).mean()
-
-    # Create interactive Plotly figure
-    fig = go.Figure()
-    fig.add_trace(
-        go.Scatter(x=df["Date"], y=df["Close"], mode="lines", name="Close Price")
-    )
-    fig.add_trace(go.Scatter(x=df["Date"], y=df["SMA"], mode="lines", name="5-Day SMA"))
-    fig.update_layout(
-        title=f"{ticker} Closing Price & 5-Day SMA",
-        xaxis_title="Date",
-        yaxis_title="Price",
-        template="plotly_white",
-    )
-
-    df = simple_moving_average(df)
-    df = daily_returns(df)
     runs = upward_downward_runs(df)
     profit, buy_and_sell_dates = max_profit(df)
-    graph_json = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
     graph_sma = plot_price_sma_plotly(df)  # Original chart with SMA + markers
     graph_candle = plot_candlestick(df)  # New plain candlestick chart
     graph_daily_returns = plot_daily_returns(df)
+    graph_overall = plot_overall(df)  # Combined chart with candlestick, SMA, and markers
 
     # DH Safely compute latest daily return and absolute price change
     if len(df) >= 2:
@@ -82,7 +53,6 @@ def analyze():
     return render_template(
         "result.html",
         ticker=ticker,
-        graph_json=graph_json,
         graph_sma=graph_sma,
         graph_candle=graph_candle,
         runs=runs,
@@ -92,4 +62,5 @@ def analyze():
         latest_return=latest_return,
         latest_change=latest_change,
         latest_close=latest_close,
+        graph_overall=graph_overall,
     )

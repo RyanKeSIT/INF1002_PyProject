@@ -2,4 +2,4 @@
 from router.app import *
 
 # Run server
-app.run(port=8081)
+app.run(debug=True, port=8081)
