@@ -1,18 +1,5 @@
-"""References
-1. https://www.geeksforgeeks.org/python/using-pandas-to_datetime-with-timestamps/
-2. https://www.w3schools.com/python/pandas/ref_df_diff.asp
-3. https://www.w3schools.com/python/pandas/ref_df_cumsum.asp
-4. https://www.geeksforgeeks.org/python/cumulative-sum-of-a-column-in-pandas-python/
-5. https://www.w3schools.com/python/pandas/ref_df_iloc.asp
-6. https://www.geeksforgeeks.org/pandas/python-pandas-dataframe-groupby/
-7. https://medium.com/@codewithnazam/pandas-vectorization-the-secret-weapon-for-data-masters-cwn-f4b4452e3627
-8. https://www.youtube.com/watch?v=DkjCaAMBGWM
-
-"""
-
 import numpy as np
 import pandas as pd
-
 
 def simple_moving_average(df, window=5):
     df["SMA"] = df["Close"].rolling(window=window).mean()
@@ -62,12 +49,13 @@ def max_profit(df):
     total_profit = profitable_days['Daily Returns'].sum() # Sums Profit of all days with positive daily returns
     df['ProfitGroup'] = (df['Daily Returns'] <= 0).cumsum() #Creates new group everytime daily return drops
     profitable_runs = df[df['Daily Returns'] > 0].groupby('ProfitGroup') #Group best buy and sell days 
-
     buy_and_sell_dates = [] 
-    for sellBuyGroup, group_df in profitable_runs:
+
+    for sellBuyGroup, group_df in profitable_runs: #SellBuyGroup: Group Ids; group_df: date, close, high, low, open, volume, sma, daily return (in %), direction, daily return (in $) and profit group number
         buy_date = group_df['Date'].iloc[0] # First day of the current run 
         sell_date = group_df['Date'].iloc[-1] # Last day of current run 
         groupProfit = group_df['Daily Returns'].sum() #Sum profit of the current run 
+        
         buy_and_sell_dates.append({
             "Buy Date": pd.to_datetime(buy_date).strftime("%d-%m-%Y"),
             "Sell Date": pd.to_datetime(sell_date).strftime("%d-%m-%Y"),
