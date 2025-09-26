@@ -7,7 +7,7 @@ from model.tools.calculations import (
 def load_stock_data(ticker, start, end):
     # Download stock data
     df = yf.download(ticker, start=start, end=end)
-
+    
     if df.empty:
         return f"No data found for {ticker} between {start} and {end}."
 

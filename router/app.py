@@ -31,8 +31,9 @@ def analyze():
     end = request.form["end"]
     df = load_stock_data(ticker, start, end)
     runs = upward_downward_runs(df)
-    profit, buy_and_sell_dates = max_profit(df)
+    profit, buy_and_sell_dates,single_best_profit = max_profit(df)
 
+    #Graphs plotting
     graph_sma = plot_price_sma_plotly(df)  # Original chart with SMA + markers
     graph_candle = plot_candlestick(df)  # New plain candlestick chart
     graph_daily_returns = plot_daily_returns(df)
@@ -57,6 +58,7 @@ def analyze():
         graph_daily_returns=graph_daily_returns,
         buy_and_sell_dates=buy_and_sell_dates,
         profit=profit,
+        single_best_profit=single_best_profit,
         latest_return=latest_return,
         latest_change=latest_change,
         latest_close=latest_close,
