@@ -31,6 +31,18 @@
             margin-bottom: 20px;
         }
 
+        h3 {
+            color: #474a9f;
+        }
+
+        th {
+            background-color: rgb(226, 234, 237);
+        }
+
+        td {
+             text-align: center 
+        }
+
         p {
             font-size: 18px;
             margin: 10px 0;
@@ -76,6 +88,37 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .tableContent {
+            display:none;
+            
+        }
+
+        #ch{
+            display:none;
+        }
+
+        #ch:checked ~ .tableContent {
+            display: block;
+        }
+
+        #ch:checked ~ label {
+            display: none;
+        }
+
+        .content{
+            display:none;
+        }
+        
+        label {
+            display: inline-block;
+            cursor: pointer;
+            background-color: white;
+            padding: 3px 13px;
+            border-radius: 3px;
+            margin-top: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
         }
 
         @media (max-width: 768px) {
@@ -134,27 +177,56 @@
         {% endif %}
     </p>
 
+    <!--Button to show more/less best buy and sell dates: https://www.youtube.com/watch?v=b6_u8IVVLdo-->
     <h2>Best Buy and Sell Dates</h2>
-    <!--HTML Table: https://www.w3schools.com/html/html_tables.asp-->
-    <div style="max-height: 400px; overflow-y: auto;">
-        <table border="1" , style="width:100%">
-            <thead>
-                <tr>
-                    <th style="background-color: rgb(105, 159, 105)">Best Buy Date</th>
-                    <th style="background-color: rgb(196, 122, 122)">Best Sell Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!--Jinja Template for Loops in Flask: https://www.geeksforgeeks.org/python/templating-with-jinja2-in-flask/-->
-                {% for trade in buy_and_sell_dates %}
-                <tr>
-                    <td style="text-align: center ">{{ trade['Buy Date'] }}</td>
-                    <td style="text-align: center">{{ trade['Sell Date'] }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <h3>Best Profitable Run</h3>
+    <table border="1" , style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Best Buy Date</th>
+                        <th>Best Sell Date</th>
+                        <th>Profit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--Jinja Template for Loops in Flask: https://www.geeksforgeeks.org/python/templating-with-jinja2-in-flask/-->
+                    <tr style="background-color: white;">
+                        <td>{{ single_best_profit['Buy Date'] }}</td>
+                        <td>{{ single_best_profit['Sell Date'] }}</td>
+                        <td>{{ single_best_profit['Profit'] }}</td>
+                    </tr>
+                </tbody>
+            </table>
+    <input id="ch" type="checkbox">
+    <div class="tableContent" style="margin-top: 5px;">  
+        <h3>All Profitable Runs</h3>  
+        <!--HTML Table: https://www.w3schools.com/html/html_tables.asp-->
+        <div style="max-height: 400px; overflow-y: auto; margin-top: 5px;">
+            <table border="1" , style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Best Buy Date</th>
+                        <th>Best Sell Date</th>
+                        <th>Profit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--Jinja Template for Loops in Flask: https://www.geeksforgeeks.org/python/templating-with-jinja2-in-flask/-->
+                    {% for trade in buy_and_sell_dates %}
+                    <tr style="background-color: white;">
+                        <td>{{ trade['Buy Date'] }}</td>
+                        <td>{{ trade['Sell Date'] }}</td>
+                        <td>{{ trade['Profit'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <label for="ch">Show Best Profitable Run Only</label>
     </div>
+    
+    <label for="ch">Show All Profitable Runs</label>
+  
 
     <h2>Daily Returns</h2>
     <div id="chart_daily_returns"></div>
