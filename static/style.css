@@ -23,9 +23,12 @@ body, html {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-end;  /* Align content to the right */
-    padding-right: 160px;  /* Increase padding on the right */
-    padding-left: 60px;   /* Keep some padding on the left for balance */
+    align-items: flex-end;
+    /* Align content to the right */
+    padding-right: 160px;
+    /* Increase padding on the right */
+    padding-left: 60px;
+    /* Keep some padding on the left for balance */
     background-size: cover;
     background-position: center;
     transition: background-image 1s ease-in-out;
@@ -42,14 +45,18 @@ body, html {
 .slideshow-content {
     position: relative;
     z-index: 1;
-    text-align: right; /* Align text to the right */
-    max-width: 750px; /* Increase the width of the content */
+    text-align: right;
+    /* Align text to the right */
+    max-width: 750px;
+    /* Increase the width of the content */
     width: 100%;
-    margin-right: 20px; /* Add some margin to move it slightly towards the center */
+    margin-right: 20px;
+    /* Add some margin to move it slightly towards the center */
 }
 
 .slideshow-content h1 {
-    font-size: 80px; /* Increase size of heading */
+    font-size: 80px;
+    /* Increase size of heading */
     margin-bottom: 25px;
     font-weight: 700;
     line-height: 1.2;
@@ -57,7 +64,8 @@ body, html {
 }
 
 .slideshow-content p {
-    font-size: 22px; /* Increase size of paragraph text */
+    font-size: 22px;
+    /* Increase size of paragraph text */
     margin-bottom: 40px;
     line-height: 1.4;
     text-align: right;
@@ -67,10 +75,12 @@ body, html {
     background: white;
     color: #474a9f;
     font-weight: 600;
-    padding: 28px 50px; /* Increase padding for larger button */
+    padding: 28px 50px;
+    /* Increase padding for larger button */
     border: none;
     cursor: pointer;
-    font-size: 28px; /* Increase font size */
+    font-size: 28px;
+    /* Increase font size */
     border-radius: 4px;
     transition: background 0.3s;
     text-decoration: none;
@@ -99,9 +109,12 @@ body, html {
     background: #f7f7f7;
     padding: 60px 40px;
     max-width: 700px;
-    margin: 60px auto 60px;  /* Adds a margin-top to separate from slideshow */
-    border-radius: 8px; /* Optional: Rounded corners */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Optional: Adds subtle shadow for separation */
+    margin: 60px auto 60px;
+    /* Adds a margin-top to separate from slideshow */
+    border-radius: 8px;
+    /* Optional: Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* Optional: Adds subtle shadow for separation */
 }
 
 form {
@@ -138,17 +151,20 @@ button:hover {
 @media (max-width: 900px) {
     .slideshow {
         padding-left: 20px;
-        padding-right: 20px; /* Adjust padding for smaller screens */
+        padding-right: 20px;
+        /* Adjust padding for smaller screens */
         height: 300px;
         justify-content: flex-end;
     }
 
     .slideshow-content h1 {
-        font-size: 35px; /* Adjust heading size for smaller screens */
+        font-size: 35px;
+        /* Adjust heading size for smaller screens */
     }
 
     .slideshow-content p {
-        font-size: 16px; /* Adjust paragraph size for smaller screens */
+        font-size: 16px;
+        /* Adjust paragraph size for smaller screens */
     }
 
     #form-section {
@@ -156,4 +172,3 @@ button:hover {
         margin-bottom: 40px;
     }
 }
-

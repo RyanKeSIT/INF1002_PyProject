@@ -2,12 +2,23 @@
 1. https://plotly.com/python/bar-charts/
 """
 
+# Import libraries
 import plotly.graph_objects as go
 import json
 import plotly
+from pandas import DataFrame
 
 
-def plot_daily_returns(df):
+def plot_daily_returns(df: DataFrame) -> str:
+    """Plots The Daily Returns
+
+    Args:
+        df (DataFrame): The supplied DataFrame
+
+    Returns:
+        str: The JSON output of the DataFrame for Plotly ingestion
+    """
+
     fig = go.Figure()
     # Bar Graph for Daily Returns
     fig.add_trace(
@@ -33,7 +44,16 @@ def plot_daily_returns(df):
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def plot_price_sma_plotly(df):
+def plot_price_sma_plotly(df: DataFrame) -> str:
+    """Plots The Closing Price with Simple Moving Average (SMA) Markers
+
+    Args:
+        df (DataFrame): The supplied DataFrame
+
+    Returns:
+        str: The JSON output of the DataFrame for Plotly ingestion
+    """
+
     fig = go.Figure()
     # Plot the close price as an orange solid line
     fig.add_trace(
@@ -86,14 +106,21 @@ def plot_price_sma_plotly(df):
         legend=dict(orientation="h", y=0.99, x=0.01),
         title_font=dict(size=24),
     )
+
     # Convert Plotly figure to JSON for rendering in HTML
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def plot_candlestick(df):
+def plot_candlestick(df: DataFrame) -> str:
+    """Plots The Candlestick Chart
+
+    Args:
+        df (DataFrame): The supplied DataFrame
+
+    Returns:
+        str: The JSON output of the DataFrame for Plotly ingestion
     """
-    Generates a Plotly candlestick chart without SMA or markers.
-    """
+
     fig = go.Figure(
         go.Candlestick(
             x=df["Date"],
@@ -116,7 +143,16 @@ def plot_candlestick(df):
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def plot_overall(df):
+def plot_overall(df: DataFrame) -> str:
+    """Plots all the above plots together in one plot
+
+    Args:
+        df (DataFrame): The supplied DataFrame
+
+    Returns:
+        str: The JSON output of the DataFrame for Plotly ingestion
+    """
+
     fig = go.Figure()
 
     # Candlestick trace
