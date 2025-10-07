@@ -1,4 +1,7 @@
+# Import libraries
 from flask import Flask, render_template, request
+
+# Import modules
 from model.tools.calculations import (
     upward_downward_runs,
     max_profit,
@@ -6,14 +9,12 @@ from model.tools.calculations import (
 from model.tools.data_loader import (
     load_stock_data,
 )
-from model.tools.visualisation import (
+from model.visualisation import (
     plot_price_sma_plotly,
     plot_candlestick,
     plot_daily_returns,
     plot_overall,
 )
-
-import plotly.graph_objects as go
 
 # app = Flask(__name__, template_folder="../static/templates")
 app = Flask(__name__, static_folder="../static", template_folder="../static/templates")
@@ -31,13 +32,15 @@ def analyze():
     end = request.form["end"]
     df = load_stock_data(ticker, start, end)
     runs = upward_downward_runs(df)
-    profit, buy_and_sell_dates,single_best_profit = max_profit(df)
+    profit, buy_and_sell_dates, single_best_profit = max_profit(df)
 
-    #Graphs plotting
+    # Graphs plotting
     graph_sma = plot_price_sma_plotly(df)  # Original chart with SMA + markers
     graph_candle = plot_candlestick(df)  # New plain candlestick chart
     graph_daily_returns = plot_daily_returns(df)
-    graph_overall = plot_overall(df)  # Combined chart with candlestick, SMA, and markers
+    graph_overall = plot_overall(
+        df
+    )  # Combined chart with candlestick, SMA, and markers
 
     # DH Safely compute latest daily return and absolute price change
     if len(df) >= 2:

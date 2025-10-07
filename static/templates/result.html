@@ -40,7 +40,7 @@
         }
 
         td {
-             text-align: center 
+            text-align: center
         }
 
         p {
@@ -89,27 +89,28 @@
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
+
         .tableContent {
-            display:none;
-            
+            display: none;
+
         }
 
-        #ch{
-            display:none;
-        }
-
-        #ch:checked ~ .tableContent {
-            display: block;
-        }
-
-        #ch:checked ~ label {
+        #ch {
             display: none;
         }
 
-        .content{
-            display:none;
+        #ch:checked~.tableContent {
+            display: block;
         }
-        
+
+        #ch:checked~label {
+            display: none;
+        }
+
+        .content {
+            display: none;
+        }
+
         label {
             display: inline-block;
             cursor: pointer;
@@ -180,29 +181,29 @@
     <!--Button to show more/less best buy and sell dates: https://www.youtube.com/watch?v=b6_u8IVVLdo-->
     <h2>Best Buy and Sell Dates</h2>
     <h3>Best Profitable Run</h3>
-    <table border="1" , style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Best Buy Date</th>
-                        <th>Best Sell Date</th>
-                        <th>Profit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!--Jinja Template for Loops in Flask: https://www.geeksforgeeks.org/python/templating-with-jinja2-in-flask/-->
-                    <tr style="background-color: white;">
-                        <td>{{ single_best_profit['Buy Date'] }}</td>
-                        <td>{{ single_best_profit['Sell Date'] }}</td>
-                        <td>{{ single_best_profit['Profit'] }}</td>
-                    </tr>
-                </tbody>
-            </table>
+    <table border="1" style="width:100%">
+        <thead>
+            <tr>
+                <th>Best Buy Date</th>
+                <th>Best Sell Date</th>
+                <th>Profit</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--Jinja Template for Loops in Flask: https://www.geeksforgeeks.org/python/templating-with-jinja2-in-flask/-->
+            <tr style="background-color: white;">
+                <td>{{ single_best_profit['Buy Date'] }}</td>
+                <td>{{ single_best_profit['Sell Date'] }}</td>
+                <td>{{ single_best_profit['Profit'] }}</td>
+            </tr>
+        </tbody>
+    </table>
     <input id="ch" type="checkbox">
-    <div class="tableContent" style="margin-top: 5px;">  
-        <h3>All Profitable Runs</h3>  
+    <div class="tableContent" style="margin-top: 5px;">
+        <h3>All Profitable Runs</h3>
         <!--HTML Table: https://www.w3schools.com/html/html_tables.asp-->
         <div style="max-height: 400px; overflow-y: auto; margin-top: 5px;">
-            <table border="1" , style="width:100%">
+            <table border="1" style="width:100%">
                 <thead>
                     <tr>
                         <th>Best Buy Date</th>
@@ -224,9 +225,9 @@
         </div>
         <label for="ch">Show Best Profitable Run Only</label>
     </div>
-    
+
     <label for="ch">Show All Profitable Runs</label>
-  
+
 
     <h2>Daily Returns</h2>
     <div id="chart_daily_returns"></div>

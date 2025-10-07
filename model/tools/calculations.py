@@ -1,29 +1,55 @@
+# Import libraries
 import numpy as np
 import pandas as pd
 
-def simple_moving_average(df, window=20):
+
+def simple_moving_average(df: pd.DataFrame, window: int = 20) -> pd.DataFrame:
+    """Calculates The Simple Moving Average
+
+    Args:
+        df (DataFrame): The supplied DataFrame
+        window (int, optional): The sliding window channel. Defaults to 20.
+
+    Returns:
+        DataFrame: The DataFrame after appying the window channel
+    """
 
     df["SMA"] = df["Close"].rolling(window=window).mean()
     df["prev_close"] = df["Close"].shift(1)
     df["prev_sma"] = df["SMA"].shift(1)
     # Buy signal when yesterday’s close was at or below the SMA and today’s close is above
-    df['buy_signal']  = (df['prev_close'] <= df['prev_sma']) & (df['Close'] > df['SMA'])
+    df["buy_signal"] = (df["prev_close"] <= df["prev_sma"]) & (df["Close"] > df["SMA"])
     # Sell signal when yesterday’s close was at or above the SMA and today’s close is below
-    df['sell_signal'] = (df['prev_close'] >= df['prev_sma']) & (df['Close'] < df['SMA'])
+    df["sell_signal"] = (df["prev_close"] >= df["prev_sma"]) & (df["Close"] < df["SMA"])
+
     return df
 
-def daily_returns(df):
-    df["Daily Return"] = df["Close"].pct_change()*100
+
+def daily_returns(df: pd.DataFrame) -> pd.DataFrame:
+    """Calculates Daily Returns
+
+    Args:
+        df (DataFrame): The supplied DataFrame
+
+    Returns:
+        DataFrame: Returns the DataFrame with the daily returns
+    """
+
+    df["Daily Return"] = df["Close"].pct_change() * 100
+
     return df
 
-def latest_daily_return_and_change(df):
-    # Returns the latest daily return (%) and latest price change.
-    latest_return = df["Daily Return"].iloc[-1]
-    latest_change = df["Close"].iloc[-1] - df["Close"].iloc[-2]
-    latest_close = df["Close"].iloc[-1]  # <-- latest closing price
-    return latest_return, latest_change, latest_close
 
-def upward_downward_runs(df):
+def upward_downward_runs(df: pd.DataFrame) -> dict[str, int]:
+    """Calculates The Total Number Of Up/Down Iterations
+
+    Args:
+        df (DataFrame): The supplied DataFrame
+
+    Returns:
+        dict(str, int): The returned DataFrame with the up/down runs
+    """
+
     df["Direction"] = np.where(
         df["Close"] > df["Close"].shift(1),
         1,
@@ -44,28 +70,57 @@ def upward_downward_runs(df):
             current_up = 0
         else:
             current_up = current_down = 0
+
     return runs
 
-def max_profit(df):
 
-    df['Daily Returns'] = df['Close'].diff() #Difference between current day's and previous day's closing price
-    profitable_days =df[df['Daily Returns']>0] #Dataframe rows where daily returns are greater than 0
-    total_profit = profitable_days['Daily Returns'].sum() # Sums Profit of all days with positive daily returns
-    df['ProfitGroup'] = (df['Daily Returns'] <= 0).cumsum() #Creates new group everytime daily return drops
-    profitable_runs = df[df['Daily Returns'] > 0].groupby('ProfitGroup') #Group best buy and sell days 
-    buy_and_sell_dates = [] 
+def max_profit(df: pd.DataFrame) -> tuple[str, list[float], float]:
+    """Calculates The Best Buy/Sell Dates And Margins
 
-    for sellBuyGroup, group_df in profitable_runs: #SellBuyGroup: Group Ids; group_df: date, close, high, low, open, volume, sma, daily return (in %), direction, daily return (in $) and profit group number
-        buy_date = group_df['Date'].iloc[0] # First day of the current run 
-        sell_date = group_df['Date'].iloc[-1] # Last day of current run 
-        groupProfit = group_df['Daily Returns'].sum() #Sum profit of the current run 
-        
-        buy_and_sell_dates.append({
-            "Buy Date": pd.to_datetime(buy_date).strftime("%d-%m-%Y"),
-            "Sell Date": pd.to_datetime(sell_date).strftime("%d-%m-%Y"),
-            "Profit": f"${groupProfit:.2f}"
-        })
-        
-    single_best_profit = max(buy_and_sell_dates, key=lambda x: float(x['Profit'][1:])) #Get highest profit by slicing $ from all profts
+    Args:
+        df (DataFrame): The supplied DataFrame
+
+    Returns:
+        tuple(str, list[float], float): The the tuple of aggregated data
+    """
+
+    df["Daily Returns"] = df[
+        "Close"
+    ].diff()  # Difference between current day's and previous day's closing price
+    profitable_days = df[
+        df["Daily Returns"] > 0
+    ]  # Dataframe rows where daily returns are greater than 0
+    total_profit = profitable_days[
+        "Daily Returns"
+    ].sum()  # Sums Profit of all days with positive daily returns
+    df["ProfitGroup"] = (
+        df["Daily Returns"] <= 0
+    ).cumsum()  # Creates new group everytime daily return drops
+    profitable_runs = df[df["Daily Returns"] > 0].groupby(
+        "ProfitGroup"
+    )  # Group best buy and sell days
+    buy_and_sell_dates = []
+
+    for (
+        _,
+        group_df,
+    ) in (
+        profitable_runs
+    ):  # SellBuyGroup: Group Ids; group_df: date, close, high, low, open, volume, sma, daily return (in %), direction, daily return (in $) and profit group number
+        buy_date = group_df["Date"].iloc[0]  # First day of the current run
+        sell_date = group_df["Date"].iloc[-1]  # Last day of current run
+        groupProfit = group_df["Daily Returns"].sum()  # Sum profit of the current run
+
+        buy_and_sell_dates.append(
+            {
+                "Buy Date": pd.to_datetime(buy_date).strftime("%d-%m-%Y"),
+                "Sell Date": pd.to_datetime(sell_date).strftime("%d-%m-%Y"),
+                "Profit": f"${groupProfit:.2f}",
+            }
+        )
+
+    single_best_profit = max(
+        buy_and_sell_dates, key=lambda x: float(x["Profit"][1:])
+    )  # Get highest profit by slicing $ from all profts
+
     return f"${round(total_profit, 2)}", buy_and_sell_dates, single_best_profit
-

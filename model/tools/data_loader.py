@@ -1,14 +1,27 @@
-import pandas as pd
+# Import libraries
 import yfinance as yf
-from model.tools.calculations import (
-    simple_moving_average,
-    daily_returns
-)
-def load_stock_data(ticker, start, end):
+from pandas import DataFrame
+
+# Import modules
+from model.tools.calculations import simple_moving_average, daily_returns
+
+
+def load_stock_data(ticker: dict[str, str], start: str, end: str) -> DataFrame | str:
+    """Downloads NRT data from YFinance and loads them to the DataFrame
+
+    Args:
+        ticker (dict[str, str]): The stock name
+        start (str): Start Date
+        end (str): End Date
+
+    Returns:
+        DataFrame | str: The prepared DataFrame or error string
+    """
+
     # Download stock data
     df = yf.download(ticker, start=start, end=end)
-    
-    if df.empty:
+
+    if df is None or df.empty:
         return f"No data found for {ticker} between {start} and {end}."
 
     # Remove spaces from column names
@@ -16,7 +29,7 @@ def load_stock_data(ticker, start, end):
 
     # Reset index so 'Date' becomes a column
     df.reset_index(inplace=True)
-    df = simple_moving_average(df) # Calculate 20-day SMA
+    df = simple_moving_average(df)  # Calculate 20-day SMA
     df = daily_returns(df)  # Calculate daily returns
-    
+
     return df
