@@ -236,23 +236,16 @@
         Plotly.newPlot('chart_daily_returns', plotDailyReturns.data, plotDailyReturns.layout);
     </script>
 
-    <h2>Closing Price vs SMA</h2>
+    <h2>Closing Price vs {{ sma_period }} Days SMA</h2>
     <div id="plotly-chart"></div>
     <script>
         var plot_data = {{ graph_sma| safe }};
         Plotly.newPlot('plotly-chart', plot_data.data, plot_data.layout);
     </script>
 
-    <h2>Up/Down Candlestick Chart</h2>
-    <div id="chart_candle"></div>
-    <script>
-        var plotDataCandle = {{ graph_candle | safe }};
-        Plotly.newPlot('chart_candle', plotDataCandle.data, plotDataCandle.layout);
-    </script>
-
     <!-- Charts -->
     <div class="chart-container">
-        <h2>Candlestick + SMA + Up/Down Markers</h2>
+        <h2>Overall Stock Analysis Chart</h2>
         <div id="chart_overall" class="chart-wrapper"></div>
         <script>
             var plotDataOverall = {{ graph_overall | safe }};

@@ -1,7 +1,3 @@
-"""References
-1. https://plotly.com/python/bar-charts/
-"""
-
 # Import libraries
 import plotly.graph_objects as go
 import json
@@ -44,7 +40,7 @@ def plot_daily_returns(df: DataFrame) -> str:
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def plot_price_sma_plotly(df: DataFrame) -> str:
+def plot_price_sma_plotly(df: DataFrame, sma_period: int) -> str:
     """Plots The Closing Price with Simple Moving Average (SMA) Markers
 
     Args:
@@ -65,13 +61,13 @@ def plot_price_sma_plotly(df: DataFrame) -> str:
         )
     )
 
-    # Plot the 20-day SMA as a light blue dashed line
+    # Plot the {{ sma_period }}-day SMA as blue solid line
     fig.add_trace(
         go.Scatter(
             x=df["Date"],
             y=[float(x) for x in df["SMA"]],
-            name="20-Day SMA",
-            line=dict(color="lightblue", width=2, dash="dash"),
+            name=f"{sma_period}-Day SMA",
+            line=dict(color="blue", width=2),
         )
     )
 
@@ -99,11 +95,11 @@ def plot_price_sma_plotly(df: DataFrame) -> str:
 
     # Layout Style
     fig.update_layout(
-        title="Close & 20-Day SMA with Buy/Sell Signals",
+        title=f"Close & { sma_period }-Day SMA with Buy/Sell Signals",
         xaxis_title="Date",
         yaxis_title="Price",
         template="plotly_white",
-        legend=dict(orientation="h", y=0.99, x=0.01),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
         title_font=dict(size=24),
     )
 
@@ -143,7 +139,9 @@ def plot_candlestick(df: DataFrame) -> str:
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-def plot_overall(df: DataFrame) -> str:
+
+
+def plot_overall(df: DataFrame, sma_period: int) -> str:
     """Plots all the above plots together in one plot
 
     Args:
@@ -167,12 +165,22 @@ def plot_overall(df: DataFrame) -> str:
         )
     )
 
-    # 20-day SMA trace
+    # Plot the close price as an orange solid line
+    fig.add_trace(
+        go.Scatter(
+            x=df["Date"],
+            y=[float(x) for x in df["Close"]],
+            name="Close",
+            line=dict(color="orange", width=2),
+        )
+    )
+
+    # SMA trace
     fig.add_trace(
         go.Scatter(
             x=df["Date"],
             y=[float(x) for x in df["SMA"]],
-            name="20-Day SMA",
+            name=f"{sma_period}-Day SMA",
             line=dict(color="blue", width=2),
         )
     )
@@ -201,12 +209,12 @@ def plot_overall(df: DataFrame) -> str:
 
     # Layout Style
     fig.update_layout(
-        title="Candlestick Chart with 20-Day SMA and Buy/Sell Signals",
+        title=f"Candlestick Chart with {sma_period}-Day SMA and Buy/Sell Signals",
         xaxis_title="Date",
         yaxis_title="Price",
         template="plotly_white",
         height=700,
-        legend=dict(orientation="h", y=0.99, x=0.01),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
         title_font=dict(size=24),
     )
 

@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 
 
-def simple_moving_average(df: pd.DataFrame, window: int = 20) -> pd.DataFrame:
+def simple_moving_average(df: pd.DataFrame, sma_period: int = 20) -> pd.DataFrame:
     """Calculates The Simple Moving Average
 
     Args:
@@ -14,7 +14,7 @@ def simple_moving_average(df: pd.DataFrame, window: int = 20) -> pd.DataFrame:
         DataFrame: The DataFrame after appying the window channel
     """
 
-    df["SMA"] = df["Close"].rolling(window=window).mean()
+    df["SMA"] = df["Close"].rolling(sma_period).mean()
     df["prev_close"] = df["Close"].shift(1)
     df["prev_sma"] = df["SMA"].shift(1)
     # Buy signal when yesterday’s close was at or below the SMA and today’s close is above
@@ -35,7 +35,7 @@ def daily_returns(df: pd.DataFrame) -> pd.DataFrame:
         DataFrame: Returns the DataFrame with the daily returns
     """
 
-    df["Daily Return"] = df["Close"].pct_change() * 100
+    df["Daily Return"] = df["Close"].pct_change()
 
     return df
 
