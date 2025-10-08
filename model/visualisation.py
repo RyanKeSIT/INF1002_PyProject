@@ -139,8 +139,6 @@ def plot_candlestick(df: DataFrame) -> str:
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-
-
 def plot_overall(df: DataFrame, sma_period: int) -> str:
     """Plots all the above plots together in one plot
 
