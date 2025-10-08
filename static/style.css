@@ -105,6 +105,34 @@ body, html {
     color: #333;
 }
 
+#form-warning {
+    padding: 60px 40px;
+    max-width: 700px;
+    height: 150px;
+    background-color: #d63e33;
+    color: white;
+    margin-top: 20px;
+    text-align: center;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    margin: 0 auto 60px;
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}
+
 #form-section {
     background: #f7f7f7;
     padding: 60px 40px;

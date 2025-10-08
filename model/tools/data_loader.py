@@ -6,13 +6,16 @@ from pandas import DataFrame
 from model.tools.calculations import simple_moving_average, daily_returns
 
 
-def load_stock_data(ticker: dict[str, str], start: str, end: str) -> DataFrame | str:
+def load_stock_data(
+    ticker: dict[str, str], start: str, end: str, sma_period: int
+) -> DataFrame | str:
     """Downloads NRT data from YFinance and loads them to the DataFrame
 
     Args:
         ticker (dict[str, str]): The stock name
         start (str): Start Date
         end (str): End Date
+        sma_period (int): The SMA period
 
     Returns:
         DataFrame | str: The prepared DataFrame or error string
@@ -29,7 +32,7 @@ def load_stock_data(ticker: dict[str, str], start: str, end: str) -> DataFrame |
 
     # Reset index so 'Date' becomes a column
     df.reset_index(inplace=True)
-    df = simple_moving_average(df)  # Calculate 20-day SMA
+    df = simple_moving_average(df, sma_period)  # Calculate SMA based on user input
     df = daily_returns(df)  # Calculate daily returns
 
     return df
