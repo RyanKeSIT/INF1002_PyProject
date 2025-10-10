@@ -27,21 +27,21 @@ def analyze():
     ticker = request.form["ticker"]
     start = request.form["start"]
     end = request.form["end"]
-    try:
-        sma_period = int(request.form["sma_period"])
-    except Exception:
-        if isinstance(df, str) or OverflowError:
+    sma_period = int(request.form["sma_period"])
+
+    if start >= end:
             flash(
                 "Invalid date: Start date must be before end date. Please try again.",
                 "error",
             )
-    else:
-        if sma_period > 200:
+            return render_template("index.html")
+    elif sma_period > 200:
             flash(
                 "Invalid SMA Period: SMA Period must be 200 days or less. Please try again.",
                 "error",
             )
             return render_template("index.html")
+    else:
 
         df = load_stock_data(ticker, start, end, sma_period)
 
