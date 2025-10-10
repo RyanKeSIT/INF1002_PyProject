@@ -84,32 +84,17 @@ def max_profit(df: pd.DataFrame) -> tuple[str, list[float], float]:
         tuple(str, list[float], float): The the tuple of aggregated data
     """
 
-    df["Daily Returns"] = df[
-        "Close"
-    ].diff()  # Difference between current day's and previous day's closing price
-    profitable_days = df[
-        df["Daily Returns"] > 0
-    ]  # Dataframe rows where daily returns are greater than 0
-    total_profit = profitable_days[
-        "Daily Returns"
-    ].sum()  # Sums Profit of all days with positive daily returns
-    df["ProfitGroup"] = (
-        df["Daily Returns"] <= 0
-    ).cumsum()  # Creates new group everytime daily return drops
-    profitable_runs = df[df["Daily Returns"] > 0].groupby(
-        "ProfitGroup"
-    )  # Group best buy and sell days
+    df["Daily Returns"] = df["Close"].diff()  # Difference between current day's and previous day's closing price
+    profitable_days = df[df["Daily Returns (%)"] > 0]  # Dataframe rows where daily returns are greater than 0
+    total_profit = profitable_days["Daily Returns (%)"].sum()  # Sums Profit of all days with positive daily returns
+    df["ProfitGroup"] = (df["Daily Returns (%)"] <= 0).cumsum()  # Creates new group everytime daily return drops
+    profitable_runs = df[df["Daily Returns (%)"] > 0].groupby("ProfitGroup")  # Group best buy and sell days
     buy_and_sell_dates = []
 
-    for (
-        _,
-        group_df,
-    ) in (
-        profitable_runs
-    ):  # SellBuyGroup: Group Ids; group_df: date, close, high, low, open, volume, sma, daily return (in %), direction, daily return (in $) and profit group number
+    for (_,group_df,) in (profitable_runs):  # SellBuyGroup: Group Ids; group_df: date, close, high, low, open, volume, sma, daily return (in %), direction, daily return (in $) and profit group number
         buy_date = group_df["Date"].iloc[0]  # First day of the current run
         sell_date = group_df["Date"].iloc[-1]  # Last day of current run
-        groupProfit = group_df["Daily Returns"].sum()  # Sum profit of the current run
+        groupProfit = group_df["Daily Returns (%)"].sum()  # Sum profit of the current run
 
         buy_and_sell_dates.append(
             {

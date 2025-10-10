@@ -106,41 +106,6 @@ def plot_price_sma_plotly(df: DataFrame, sma_period: int) -> str:
     # Convert Plotly figure to JSON for rendering in HTML
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
-
-def plot_candlestick(df: DataFrame) -> str:
-    """Plots The Candlestick Chart
-
-    Args:
-        df (DataFrame): The supplied DataFrame
-
-    Returns:
-        str: The JSON output of the DataFrame for Plotly ingestion
-    """
-
-    fig = go.Figure(
-        go.Candlestick(
-            x=df["Date"],
-            open=[float(x) for x in df["Open"]],
-            high=[float(x) for x in df["High"]],
-            low=[float(x) for x in df["Low"]],
-            close=[float(x) for x in df["Close"]],
-            name="OHLC",
-        )
-    )
-
-    fig.update_layout(
-        title="Candlestick Chart",
-        xaxis_title="Date",
-        yaxis_title="Price",
-        template="plotly_white",
-        xaxis=dict(rangeslider=dict(visible=False)),
-    )
-
-    return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-
-
-
-
 def plot_overall(df: DataFrame, sma_period: int) -> str:
     """Plots all the above plots together in one plot
 

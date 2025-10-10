@@ -38,11 +38,11 @@ def analyze():
     profit, buy_and_sell_dates,single_best_profit = max_profit(df)
 
     #Graphs plotting
-    graph_sma = plot_price_sma_plotly(df, sma_period)  # Original chart with SMA + markers
     graph_daily_returns = plot_daily_returns(df)
+    graph_sma = plot_price_sma_plotly(df, sma_period)
     graph_overall = plot_overall(df, sma_period)  # Overall chart with candlestick, Close price vs SMA, and markers
 
-    # DH Safely compute latest daily return and absolute price change
+    #Safely compute latest daily return and absolute price change
     if len(df) >= 2:
         latest_return = float(df["Daily Return"].iloc[-1])  # e.g. 0.0123 for +1.23%
         latest_change = float(df["Close"].iloc[-1] - df["Close"].iloc[-2])
