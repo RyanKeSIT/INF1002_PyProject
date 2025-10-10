@@ -23,10 +23,7 @@ def load_stock_data(
 
     # Download stock data
     df = yf.download(ticker, start=start, end=end)
-
-    if df is None or df.empty:
-        return f"No data found for {ticker} between {start} and {end}."
-
+    
     # Remove spaces from column names
     df.columns = [column[0].replace(" ", "") for column in df.columns]
 
