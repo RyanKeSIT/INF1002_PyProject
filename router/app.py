@@ -35,13 +35,13 @@ def analyze():
                 "error",
             )
             return render_template("index.html")
-    else:
-        if sma_period > 200:
+    elif sma_period > 200:
             flash(
                 "Invalid SMA Period: SMA Period must be 200 days or less. Please try again.",
                 "error",
             )
             return render_template("index.html")
+    else:
 
         df = load_stock_data(ticker, start, end, sma_period)
 
