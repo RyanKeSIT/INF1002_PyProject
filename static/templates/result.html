@@ -163,7 +163,7 @@
         </div>
     </div>
 
-    <!-- Dong Han Changes -->
+    <!-- Latest Closing Price -->
     <p>Latest Closing Price :
         {% if latest_close is not none and latest_change is not none and latest_return is not none %}
         <span>
@@ -178,7 +178,7 @@
         {% endif %}
     </p>
 
-    <!--Button to show more/less best buy and sell dates: https://www.youtube.com/watch?v=b6_u8IVVLdo-->
+    <!--Button to show more/less best buy and sell dates-->
     <h2>Best Buy and Sell Dates</h2>
     <h3>Best Profitable Run</h3>
     <table border="1" style="width:100%">
@@ -190,7 +190,7 @@
             </tr>
         </thead>
         <tbody>
-            <!--Jinja Template for Loops in Flask: https://www.geeksforgeeks.org/python/templating-with-jinja2-in-flask/-->
+            <!-- Table Rows in Flask -->
             <tr style="background-color: white;">
                 <td>{{ single_best_profit['Buy Date'] }}</td>
                 <td>{{ single_best_profit['Sell Date'] }}</td>
@@ -201,7 +201,7 @@
     <input id="ch" type="checkbox">
     <div class="tableContent" style="margin-top: 5px;">
         <h3>All Profitable Runs</h3>
-        <!--HTML Table: https://www.w3schools.com/html/html_tables.asp-->
+        <!--HTML Table-->
         <div style="max-height: 400px; overflow-y: auto; margin-top: 5px;">
             <table border="1" style="width:100%">
                 <thead>
@@ -212,7 +212,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!--Jinja Template for Loops in Flask: https://www.geeksforgeeks.org/python/templating-with-jinja2-in-flask/-->
+                    <!-- Table Rows in Flask -->
                     {% for trade in buy_and_sell_dates %}
                     <tr style="background-color: white;">
                         <td>{{ trade['Buy Date'] }}</td>
