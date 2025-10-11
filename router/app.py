@@ -1,9 +1,5 @@
 # Import libraries
 from flask import Flask, render_template, request, flash
-from model.tools.calculations import (
-    upward_downward_runs,
-    max_profit,
-)
 from model.tools.data_loader import (
     load_stock_data,
 )
@@ -30,30 +26,29 @@ def analyze():
     sma_period = int(request.form["sma_period"])
 
     if start >= end:
-            flash(
+        flash(
                 "Invalid date: Start date must be before end date. Please try again.",
                 "error",
             )
-            return render_template("index.html")
+        return render_template("index.html")
     elif sma_period > 200:
-            flash(
+        flash(
                 "Invalid SMA Period: SMA Period must be 200 days or less. Please try again.",
                 "error",
             )
-            return render_template("index.html")
+        return render_template("index.html")
     else:
 
-        df = load_stock_data(ticker, start, end, sma_period)
-
-        runs = upward_downward_runs(df)
-
-        profit, buy_and_sell_dates, single_best_profit = max_profit(df)
+        # Load and prepare data 
+        df, runs, profit, buy_and_sell_dates, single_best_profit = load_stock_data(
+            ticker, start, end, sma_period
+        )
 
         # Graphs plotting
         graph_sma = plot_price_sma_plotly(
             df, sma_period
         )  # Original chart with SMA + markers
-        graph_daily_returns = plot_daily_returns(df)
+        graph_daily_returns = plot_daily_returns(df)  # Daily Returns bar chart
         graph_overall = plot_overall(
             df, sma_period
         )  # Overall chart with candlestick, Close price vs SMA, and markers
@@ -67,7 +62,8 @@ def analyze():
             latest_return = None
             latest_change = None
             latest_close = None
-
+        
+        # Render results
         return render_template(
             "result.html",
             ticker=ticker,
