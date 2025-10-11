@@ -76,7 +76,7 @@ def upward_downward_runs(df: pd.DataFrame) -> dict[str, int]:
         else:
             current_up = current_down = 0
 
-        return runs
+    return runs
 
 
 def max_profit(df: pd.DataFrame) -> tuple[str, list[float], float]:
