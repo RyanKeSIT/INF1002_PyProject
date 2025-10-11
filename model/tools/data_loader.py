@@ -3,7 +3,12 @@ import yfinance as yf
 from pandas import DataFrame
 
 # Import modules
-from model.tools.calculations import simple_moving_average, daily_returns
+from model.tools.calculations import (
+    max_profit,
+    simple_moving_average,
+    daily_returns,
+    upward_downward_runs,
+)
 
 
 def load_stock_data(
@@ -23,13 +28,19 @@ def load_stock_data(
 
     # Download stock data
     df = yf.download(ticker, start=start, end=end)
-    
+
     # Remove spaces from column names
     df.columns = [column[0].replace(" ", "") for column in df.columns]
 
     # Reset index so 'Date' becomes a column
     df.reset_index(inplace=True)
-    df = simple_moving_average(df, sma_period)  # Calculate SMA based on user input
-    df = daily_returns(df)  # Calculate daily returns
 
-    return df
+    # Perform calculations
+    df = simple_moving_average(df, sma_period)  # Calculate SMA based on user input
+    runs = upward_downward_runs(df)  # Calculate up/down runs
+    df = daily_returns(df)  # Calculate daily returns
+    profit, buy_and_sell_dates, single_best_profit = max_profit(
+        df
+    )  # Calculate max profit
+
+    return df, runs, profit, buy_and_sell_dates, single_best_profit
